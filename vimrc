@@ -72,13 +72,11 @@ colorscheme spacegray
 let g:spacegray_underline_search = 1
 " let g:spacegray_use_italics = 1 " Use italics when appropriate - for comments
 
-set termguicolors
 set t_Co=256
 set background=dark
 
-" TODO: Fix this
 if (has("termguicolors"))
-set termguicolors
+  set termguicolors
 endif
 
 let base16colorspace=256  " Access colors present in 256 colorspace
