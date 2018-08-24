@@ -72,6 +72,10 @@ colorscheme spacegray
 let g:spacegray_underline_search = 1
 " let g:spacegray_use_italics = 1 " Use italics when appropriate - for comments
 
+" set Vim-specific sequences for RGB colors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum""
+
 set t_Co=256
 set background=dark
 
