@@ -4,7 +4,7 @@
 set nocompatible
 syntax on
 set nowrap
-set encoding=utf8
+set encoding=UTF-8
 
 " Vundle setup
 filetype off " required
@@ -39,6 +39,8 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
+" command-t https://github.com/wincent/command-t/
+
 " Git
 Plugin 'tpope/vim-fugitive'
 
@@ -59,6 +61,36 @@ set cursorline                  " Enable highlighting of the current line
 """""""""""""""""""""""
 map <C-e> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
+let NERDTreeWinSize=32
+let NERDTreeWinPos="left"
+let NERDTreeIgnore=['.git$[[dir]]', '.swp']
+
+let NERDTreeMinimalUI=1
+
+let g:NERDTreeHijackNetrw = 1
+au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
+
+" Close vim if nerdtree is the only buffer on streen
+function! s:CloseIfOnlyControlWinLeft()
+  if winnr("$") != 1
+    return
+  endif
+  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+        \ || &buftype == 'quickfix'
+    q
+  endif
+endfunction
+augroup CloseIfOnlyControlWinLeft
+  au!
+  au BufEnter * call s:CloseIfOnlyControlWinLeft()
+augroup END
+
+autocmd BufWinEnter * NERDTreeMirror
+
+" tabs
+map  <C-l> :tabn<CR>
+map  <C-h> :tabp<CR>
+map  <C-n> :tabnew<CR>
 
 """""""""""""""""""""""
 " Generic Programming Support 
@@ -88,9 +120,11 @@ let base16colorspace=256  " Access colors present in 256 colorspace
 " Vim-Airline Configuration
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1 
-" let g:airline_theme='hybrid'
+"let g:airline_theme='hybrid'
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1 
+
+set laststatus=2
 
 """""""""""""""""""""""
 " Search
@@ -118,6 +152,19 @@ set softtabstop=2               " Number of spaces per Tab
 
 " other
 let g:airline#extensions#tabline#enabled = 1
+
+" ctrolP (search files)
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](node_modules)$',
+  \ }
+:nnoremap <c-p> :CtrlPClearCache<bar>CtrlP<cr>
 
 """""""""""""""""""""""
 " Advanced
